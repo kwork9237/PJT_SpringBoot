@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/")
 public class MainController {
 	@GetMapping("/main")
-	public ModelAndView index(RedirectAttributes redir) {
+	public ModelAndView index() {
 		ModelAndView mav = new ModelAndView();
 
 		mav.setViewName("redirect:/");
@@ -18,32 +18,66 @@ public class MainController {
 	}
 	
 	@GetMapping("/about")
-	public String about() {
-		return "about.html";
+	public ModelAndView about() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("about.html");
+		return mav;
 	}
 	
 	@GetMapping("/contact")
-	public String contact() {
-		return "contect.html";
+	public ModelAndView contact() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("contact.html");
+		return mav;
 	}
 	
 	@GetMapping("/pricing")
-	public String pricing() {
-		return "pricing.html";
+	public ModelAndView pricing() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("pricing.html");
+		return mav;
 	}
 	
 	@GetMapping("/faq")
-	public String faq() {
-		return "faq.html";
+	public ModelAndView faq() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("faq.html");
+		return mav;
 	}
 	
 	@GetMapping("/bloghome")
-	public String bloghome() {
-		return "blog-home.html";
+	public ModelAndView bloghome() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("blog-home.html");
+		return mav;
 	}
 	
 	@GetMapping("/blogpost")
-	public String blogpost() {
-		return "blog-post.html";
+	public ModelAndView blogpost() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("blog-post.html");
+		return mav;
+	}
+	
+	@GetMapping("/portfolioview")
+	public ModelAndView portfolioview() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("portfolio-overview.html");
+		return mav;
+	}
+	
+	@GetMapping("/portfolioitem")
+	public ModelAndView portfolioitem() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("portfolio-item.html");
+		return mav;
 	}
 }
