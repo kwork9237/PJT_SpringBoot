@@ -1,14 +1,25 @@
 package com.co.kr.controller;
 
+import java.util.Map;
+import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.co.kr.domain.LoginDomain;
+import com.co.kr.service.MemberService;
+import com.co.kr.vo.LoginVO;
 
 @Controller
 @RequestMapping(value = "/")
 public class MainController {
+	@Autowired
+	private MemberService mbService;
+	
 	@GetMapping("/main")
 	public ModelAndView index() {
 		ModelAndView mav = new ModelAndView();
@@ -78,6 +89,30 @@ public class MainController {
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("portfolio-item.html");
+		return mav;
+	}
+	
+	//Sign In
+	@PostMapping("/signin")
+	public ModelAndView signin(LoginVO loginVO) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map <String, String> map = new HashMap<>();
+		map.put("mbMail", loginVO.getEmail());
+		//System.out.println("chkmember " + mbService.chkMember(map));
+		//System.out.println("mail addr " + loginVO.getEmail());
+		if(mbService.chkMember(map) == 0) {
+			//System.out.println("Signed!");
+			/*
+			LoginDomain ld = LoginDomain.builder()
+					.mbMail(loginVO.getEmail())
+					.mbId(loginVO.getId())
+					.mbPw(loginVO.getPw())
+					.build();
+			*/
+		}
+		
+		mav.setViewName("index.html");
 		return mav;
 	}
 }

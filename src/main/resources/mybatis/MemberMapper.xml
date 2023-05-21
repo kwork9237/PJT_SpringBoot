@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.co.kr.mapper.MemberMapper">
+	<select id="chkMember" resultType="int" parameterType="hashMap">
+		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail}
+	</select>
+	
+	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
+		SELECT mb_mail, mb_id, mb_pw, isAdmin FROM pjt.member WHERE mb_code=#{mbCode}
+	</select>
+	
+	<insert id="createMember" parameterType="com.co.kr.domain.LoginDomain">
+		INSERT INTO pjt.member(
+			mb_mail,
+			mb_id,
+			mb_pw
+		)
+		VALUES(
+			#{mb_id},
+			#{mb_id},
+			#{mb_pw}
+		)
+	</insert>
+	
+	
+	<!-- 
+	Dummy
+	<select id="mbSelectList" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
+		SELECT * FROM jsp.member WHERE mb_seq=#{mbSeq}
+	</select>
+	
+	<select id="mbGetAll" resultType="int">
+		SELECT COUNT(*) FROM jsp.member
+	</select>
+	 -->
+</mapper>
