@@ -22,4 +22,9 @@ public class MemberServiceImpl implements MemberService{
 	public LoginDomain getMember(Map<String, String> map) {
 		return mbMapper.getMember(map);
 	}
+
+	@Override
+	public void createMember(LoginDomain log) {
+		mbMapper.createMember(log);
+	}
 }

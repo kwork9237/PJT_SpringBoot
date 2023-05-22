@@ -3,23 +3,25 @@
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.co.kr.mapper.MemberMapper">
 	<select id="chkMember" resultType="int" parameterType="hashMap">
-		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail}
+		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail} OR mb_id=#{mbId} 
 	</select>
 	
 	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
-		SELECT mb_mail, mb_id, mb_pw, isAdmin FROM pjt.member WHERE mb_code=#{mbCode}
+		SELECT * FROM pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
 	<insert id="createMember" parameterType="com.co.kr.domain.LoginDomain">
 		INSERT INTO pjt.member(
 			mb_mail,
 			mb_id,
-			mb_pw
+			mb_pw,
+			mb_salt
 		)
 		VALUES(
-			#{mb_id},
-			#{mb_id},
-			#{mb_pw}
+			#{mbMail},
+			#{mbId},
+			#{mbPw},
+			#{mbSalt}
 		)
 	</insert>
 	

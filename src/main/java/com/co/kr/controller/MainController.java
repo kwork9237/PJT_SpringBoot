@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.co.kr.domain.LoginDomain;
 import com.co.kr.domain.PostDomain;
+import com.co.kr.utils.Encrypt;
+import com.co.kr.utils.Message;
 import com.co.kr.service.MemberService;
 import com.co.kr.service.PostService;
 import com.co.kr.vo.LoginVO;
@@ -97,28 +99,62 @@ public class MainController {
 		return mav;
 	}
 	
-	//Sign In
-	@PostMapping("/signin")
-	@RequestMapping("/signin")
-	public ModelAndView signin(LoginVO loginVO) {
+	@GetMapping("/login")
+	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView();
 		
-		/*
-		Map <String, String> map = new HashMap<>();
-		map.put("mbMail", loginVO.getEmail());
-		//System.out.println("chkmember " + mbService.chkMember(map));
-		//System.out.println("mail addr " + loginVO.getEmail());
-		if(mbService.chkMember(map) == 0) {
-			//System.out.println("Signed!");
-			LoginDomain ld = LoginDomain.builder()
-					.mbMail(loginVO.getEmail())
-					.mbId(loginVO.getId())
-					.mbPw(loginVO.getPw())
-					.build();
-		}
-		*/
+		mav.setViewName("items/signin/login.html");
+		return mav;
+	}
+	
+	//Sign In (Regeister)
+	//@RequestMapping(value = "/register")
+	@GetMapping("/register")
+	public ModelAndView register() {
+		ModelAndView mav = new ModelAndView();
 		
-		mav.setViewName("signin.html");
+		mav.setViewName("/items/signin/register.html");
+		return mav;
+	}
+	
+	//Member Create
+	@PostMapping("/create")
+	public ModelAndView create(LoginVO log) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("mbMail", log.getMail());
+		map.put("mbId", log.getId());
+		
+		Integer mbchk = mbService.chkMember(map);
+		if(mbchk == 0) {
+			//sha-512 encrypted password
+			String[] enc_res = Encrypt.encrypt(log.getPw());
+			
+			//TEST
+			//String[] enc_res = Encrypt.encrypt("aaaaa");
+			
+			//loginDomain Build
+			LoginDomain logDomain = LoginDomain.builder()
+					.mbMail(log.getMail())
+					.mbId(log.getId())
+					.mbPw(enc_res[0])
+					.mbSalt(enc_res[1])
+					.build();
+			
+			//MbCreate
+			mbService.createMember(logDomain);
+			
+			mav.addObject("data", new Message("회원가입이 완료되었습니다.", "/"));
+			mav.setViewName("Message");
+		}
+		
+		else {
+			mav.addObject("data", new Message("중복된 아이디 또는 이메일입니다.", "/register"));
+			mav.setViewName("/static/Message.html");
+			//System.out.println("Already exists id or email");
+		}
+		
 		return mav;
 	}
 	

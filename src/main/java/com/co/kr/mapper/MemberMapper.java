@@ -10,4 +10,5 @@ import com.co.kr.domain.LoginDomain;
 public interface MemberMapper {
 	public int chkMember(Map<String, String>map);
 	public LoginDomain getMember(Map<String, String> map);
+	public void createMember(LoginDomain log);
 }
