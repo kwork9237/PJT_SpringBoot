@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.co.kr.domain.LoginDomain;
+import com.co.kr.domain.PostDomain;
 import com.co.kr.service.MemberService;
+import com.co.kr.service.PostService;
 import com.co.kr.vo.LoginVO;
 
 @Controller
@@ -19,6 +21,9 @@ import com.co.kr.vo.LoginVO;
 public class MainController {
 	@Autowired
 	private MemberService mbService;
+	
+	@Autowired
+	private PostService postService;
 	
 	@GetMapping("/main")
 	public ModelAndView index() {
@@ -94,25 +99,35 @@ public class MainController {
 	
 	//Sign In
 	@PostMapping("/signin")
+	@RequestMapping("/signin")
 	public ModelAndView signin(LoginVO loginVO) {
 		ModelAndView mav = new ModelAndView();
 		
+		/*
 		Map <String, String> map = new HashMap<>();
 		map.put("mbMail", loginVO.getEmail());
 		//System.out.println("chkmember " + mbService.chkMember(map));
 		//System.out.println("mail addr " + loginVO.getEmail());
 		if(mbService.chkMember(map) == 0) {
 			//System.out.println("Signed!");
-			/*
 			LoginDomain ld = LoginDomain.builder()
 					.mbMail(loginVO.getEmail())
 					.mbId(loginVO.getId())
 					.mbPw(loginVO.getPw())
 					.build();
-			*/
 		}
+		*/
 		
-		mav.setViewName("index.html");
+		mav.setViewName("signin.html");
+		return mav;
+	}
+	
+	//Get Post Items
+	private ModelAndView getPosts() {
+		ModelAndView mav = new ModelAndView();
+		
+		PostDomain posts = postService.getLastPost();
+		
 		return mav;
 	}
 }
