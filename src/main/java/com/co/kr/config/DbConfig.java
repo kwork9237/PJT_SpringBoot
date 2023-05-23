@@ -15,7 +15,8 @@ public class DbConfig {
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/jsp?autoReconnect=true&serverTimezone=UTC&characterEncoding=UTF-8");
+		//using database setting
+		dataSource.setUrl("jdbc:mysql://localhost:3306/pjt?autoReconnect=true&serverTimezone=UTC&characterEncoding=UTF-8");
 		dataSource.setUsername("root");
 		dataSource.setPassword("1234");
 		dataSource.setMaxIdle(5);

@@ -99,16 +99,23 @@ public class MainController {
 		return mav;
 	}
 	
-	@GetMapping("/login")
-	public ModelAndView login() {
+	@PostMapping("/login")
+	public ModelAndView login(LoginVO log) {
 		ModelAndView mav = new ModelAndView();
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("mbId", log.getId());
+		map.put("mbMail", log.getMail());
+		
+		LoginDomain mbInfo = mbService.getMember(null);
+		Integer loginChk = Encrypt.pwCheck(log.getPw(), mbInfo.getMbSalt(), mbInfo.getMbPw());
+		System.out.println(loginChk);
 		
 		mav.setViewName("items/signin/login.html");
 		return mav;
 	}
 	
 	//Sign In (Regeister)
-	//@RequestMapping(value = "/register")
 	@GetMapping("/register")
 	public ModelAndView register() {
 		ModelAndView mav = new ModelAndView();
@@ -129,7 +136,7 @@ public class MainController {
 		Integer mbchk = mbService.chkMember(map);
 		if(mbchk == 0) {
 			//sha-512 encrypted password
-			String[] enc_res = Encrypt.encrypt(log.getPw());
+			String[] enc_res = Encrypt.pwEncrypt(log.getPw());
 			
 			//TEST
 			//String[] enc_res = Encrypt.encrypt("aaaaa");
@@ -146,7 +153,7 @@ public class MainController {
 			mbService.createMember(logDomain);
 			
 			mav.addObject("data", new Message("회원가입이 완료되었습니다.", "/"));
-			mav.setViewName("Message");
+			mav.setViewName("/static/Message");
 		}
 		
 		else {

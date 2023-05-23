@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 public class Encrypt {
-	public static String[] encrypt(String input) {
+	public static String[] pwEncrypt(String input) {
 		String[] res = new String[2];
 		
 		try {
@@ -34,7 +34,7 @@ public class Encrypt {
 		return res;
 	}
 	
-	public static Integer loginCheck(String input, String salt) {
+	public static Integer pwCheck(String input, String salt, String pw) {
 		Integer res = 0;
 		
 		try {
@@ -42,6 +42,15 @@ public class Encrypt {
 			
 			md.update(salt.getBytes());
 			md.update(input.getBytes());
+			
+			String chkpw = String.format("%0128x", new BigInteger(1, md.digest()));
+			
+			System.out.println("chkpw : " + chkpw);
+			System.out.println("pw : " + pw);
+			
+			if(chkpw == pw) {
+				res = 1;
+			}
 		}
 		catch (NoSuchAlgorithmException e) {
 			System.out.println("ERROR : NoSuchAlgorithmException");

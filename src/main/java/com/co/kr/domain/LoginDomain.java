@@ -12,6 +12,6 @@ public class LoginDomain {
 	private String mbMail;
 	private String mbId;
 	private String mbPw;
-	private Integer isAdmin;
 	private String mbSalt;
+	private Integer isAdmin;
 }
