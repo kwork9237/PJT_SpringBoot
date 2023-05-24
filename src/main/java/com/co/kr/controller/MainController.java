@@ -99,8 +99,16 @@ public class MainController {
 		return mav;
 	}
 	
-	@PostMapping("/login")
-	public ModelAndView login(LoginVO log) {
+	@GetMapping("/login")
+	public ModelAndView login() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("items/signin/login.html");
+		return mav;
+	}
+	
+	@PostMapping("/signin")
+	public ModelAndView signin(LoginVO log) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String, String> map = new HashMap<>();
@@ -109,9 +117,18 @@ public class MainController {
 		
 		LoginDomain mbInfo = mbService.getMember(null);
 		Integer loginChk = Encrypt.pwCheck(log.getPw(), mbInfo.getMbSalt(), mbInfo.getMbPw());
-		System.out.println(loginChk);
 		
-		mav.setViewName("items/signin/login.html");
+		
+		if(loginChk == 1) {
+			mav.addObject("data", new Message("로그인에 성공하셨습니다.", "/"));
+			mav.setViewName("/static/Message");
+		}
+		
+		else {
+			mav.addObject("data", new Message("틀린 ID 또는 PW입니다.", "/login"));
+			mav.setViewName("/static/Message");
+		}
+		
 		return mav;
 	}
 	
@@ -152,13 +169,13 @@ public class MainController {
 			//MbCreate
 			mbService.createMember(logDomain);
 			
-			mav.addObject("data", new Message("회원가입이 완료되었습니다.", "/"));
+			mav.addObject("data", new Message("회원가입이 완료되었습니다.", "/login"));
 			mav.setViewName("/static/Message");
 		}
 		
 		else {
 			mav.addObject("data", new Message("중복된 아이디 또는 이메일입니다.", "/register"));
-			mav.setViewName("/static/Message.html");
+			mav.setViewName("/static/Message");
 			//System.out.println("Already exists id or email");
 		}
 		
