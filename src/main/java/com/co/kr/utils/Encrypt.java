@@ -48,7 +48,7 @@ public class Encrypt {
 			System.out.println("chkpw : " + chkpw);
 			System.out.println("pw : " + pw);
 			
-			if(chkpw == pw) {
+			if(chkpw.equals(pw)) {
 				res = 1;
 			}
 		}

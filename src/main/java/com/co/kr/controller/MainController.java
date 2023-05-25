@@ -115,9 +115,8 @@ public class MainController {
 		map.put("mbId", log.getId());
 		map.put("mbMail", log.getMail());
 		
-		LoginDomain mbInfo = mbService.getMember(null);
+		LoginDomain mbInfo = mbService.getMember(map);
 		Integer loginChk = Encrypt.pwCheck(log.getPw(), mbInfo.getMbSalt(), mbInfo.getMbPw());
-		
 		
 		if(loginChk == 1) {
 			mav.addObject("data", new Message("로그인에 성공하셨습니다.", "/"));

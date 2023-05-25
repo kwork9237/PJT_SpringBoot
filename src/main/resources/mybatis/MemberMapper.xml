@@ -7,7 +7,7 @@
 	</select>
 	
 	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
-		SELECT * FROM pjt.member WHERE mb_code=#{mbId} OR mb_id=#{mbMail}
+		SELECT * FROM pjt.member WHERE mb_id=#{mbId} OR mb_id=#{mbMail}
 	</select>
 	
 	<insert id="createMember" parameterType="com.co.kr.domain.LoginDomain">
