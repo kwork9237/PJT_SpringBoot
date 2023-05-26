@@ -1,11 +1,16 @@
 package com.co.kr.controller;
 
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -108,7 +113,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/signin")
-	public ModelAndView signin(LoginVO log) {
+	public ModelAndView signin(LoginVO log, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String, String> map = new HashMap<>();
@@ -119,8 +124,12 @@ public class MainController {
 		Integer loginChk = Encrypt.pwCheck(log.getPw(), mbInfo.getMbSalt(), mbInfo.getMbPw());
 		
 		if(loginChk == 1) {
+			System.out.println(log.getId() + " : was loginned");
 			mav.addObject("data", new Message("로그인에 성공하셨습니다.", "/"));
 			mav.setViewName("/static/Message");
+			
+			//Session 처리
+			HttpSession sess = req.getSession();
 		}
 		
 		else {
@@ -188,5 +197,11 @@ public class MainController {
 		PostDomain posts = postService.getLastPost();
 		
 		return mav;
+	}
+	
+	//
+	@RequestMapping(value = "./well-known/{name}")
+	public String sslcheck(@PathVariable("name") String name) {
+		return name;
 	}
 }

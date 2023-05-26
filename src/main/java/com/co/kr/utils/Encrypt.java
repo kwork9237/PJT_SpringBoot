@@ -44,13 +44,9 @@ public class Encrypt {
 			md.update(input.getBytes());
 			
 			String chkpw = String.format("%0128x", new BigInteger(1, md.digest()));
-			
-			System.out.println("chkpw : " + chkpw);
-			System.out.println("pw : " + pw);
-			
-			if(chkpw.equals(pw)) {
-				res = 1;
-			}
+
+			//login check result
+			if(chkpw.equals(pw)) res = 1;
 		}
 		catch (NoSuchAlgorithmException e) {
 			System.out.println("ERROR : NoSuchAlgorithmException");
