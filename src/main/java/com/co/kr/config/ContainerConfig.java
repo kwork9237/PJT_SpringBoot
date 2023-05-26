@@ -10,28 +10,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ContainerConfig {
-	@Value("${tomcat.ajp.protocol}")
-	String ajpProtocol;
-	
 	@Value("${tomcat.ajp.port}")
 	int ajpPort;
-	
+
 	@Bean
 	public ServletWebServerFactory servletContainer() {
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-		tomcat.addAdditionalTomcatConnectors(createAjpConnector());
-		return tomcat;
-	}
-	
-	private Connector createAjpConnector() {
-		Connector ajpConnector = new Connector(ajpProtocol);
-		
+		Connector ajpConnector = new Connector("AJP/1.3");
 		ajpConnector.setPort(ajpPort);
-		ajpConnector.setSecure(false);
 		ajpConnector.setAllowTrace(false);
-		ajpConnector.setScheme("http");
+		//ajpConnector.setSecure(false);
+		//ajpConnector.setScheme("http");
 		((AbstractAjpProtocol<?>)ajpConnector.getProtocolHandler()).setSecretRequired(false);
 		
-		return ajpConnector;
+		tomcat.addAdditionalTomcatConnectors(ajpConnector);
+		return tomcat;
 	}
 }
