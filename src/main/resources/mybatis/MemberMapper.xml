@@ -7,7 +7,15 @@
 	</select>
 	
 	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
-		SELECT * FROM pjt.member WHERE mb_id=#{mbId} OR mb_id=#{mbMail}
+		SELECT * FROM pjt.member WHERE mb_id=#{mbId} OR mb_mail=#{mbMail}
+	</select>
+	
+	<select id="chkCode" resultType="int" parameterType="hashMap">
+		SELECT COUNT(*) FROM pjt.member WHERE mb_code=#{mbCode}
+	</select>
+	
+	<select id="getCode" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
+		SELECT * FROM pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
 	<insert id="createMember" parameterType="com.co.kr.domain.LoginDomain">
@@ -25,6 +33,17 @@
 		)
 	</insert>
 	
+	<update id="updateMember" parameterType="com.co.kr.domain.LoginDomain">
+		UPDATE pjt.member SET
+			mb_mail=#{mbMail},
+			mb_id=#{mbId},
+			mb_pw=#{mbPw}
+		WHERE mb_code=#{mbCode}
+	</update>
+	
+	<delete id="deleteMember" parameterType="hashMap">
+		DELETE FROM pjt.member WHERE mb_code=#{mbCode}
+	</delete>
 	
 	<!-- 
 	Dummy
@@ -35,5 +54,8 @@
 	<select id="mbGetAll" resultType="int">
 		SELECT COUNT(*) FROM jsp.member
 	</select>
+	
+	<update id="" parameterType=""></update>
+	<delete id="" parameterType=""></delete>
 	 -->
 </mapper>

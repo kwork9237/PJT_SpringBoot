@@ -8,6 +8,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 public class LoginVO {
+	private String code;
 	private String mail;
 	private String id;
 	private String pw;

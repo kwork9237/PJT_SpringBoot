@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}">
+    layout:decorate="~{layouts/layout_noheader}">
 	<head>
 		<title>Login</title>
 	</head>
+	
 	<!-- <body> -->
 	<div layout:fragment="content">
 		<main class="flex-shrink-0">
 			<div class="container px-5 my-5">
-				<div class="row gx-5 justify-content-center">
+				<!-- <div class="row gx-5 justify-content-center"> -->
+				<div class="container-sm px-5 my-5">
 					<form id="loginForm" role="form" action="signin" method="post">
 						<!-- Id or mail input -->
 				      	<div class="form-outline mb-4">
@@ -28,6 +30,12 @@
       						<button type="submit" class="btn btn-primary btn-block mb-3">Login</button>
       					</div>
 					</form>
+					
+					<form id="registerForm" role="form" action="register" method="post" class="form-check d-flex justify-content-center mb-4">
+						<div class="form-outline mb-4">
+							<p>Not a member? <a href="/register">Register</a></p>
+      					</div>
+      				</form>
 				</div>
 			</div>
 		</main>
