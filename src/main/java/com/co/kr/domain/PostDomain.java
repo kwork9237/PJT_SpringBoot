@@ -8,9 +8,13 @@ import lombok.Setter;
 @Getter
 @Builder(builderMethodName="builder")
 public class PostDomain {
+	private String postId;
 	private String postAuthor;
-	private String postType;
+	private String postTitle;
+	private String postContent;
+	private String postQcontent;
+	private String postTags;
+	private String postSimg;
+	private String postMimg;
 	private String postDate;
-	private String postImg;
-	private String postDetail;
 }

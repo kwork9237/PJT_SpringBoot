@@ -3,28 +3,17 @@ package com.co.kr.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.co.kr.domain.PostDomain;
 import com.co.kr.utils.Message;
-import com.co.kr.service.MemberService;
-import com.co.kr.service.PostService;
 
 @Controller
 @RequestMapping(value = "/")
-public class MainController {
-	@Autowired
-	private MemberService mbService;
-	
-	@Autowired
-	private PostService postService;
-	
-	//main process
+public class MainController {	
+	//Main
 	@GetMapping("/")
 	public ModelAndView main(HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -64,6 +53,7 @@ public class MainController {
 		return mav;
 	}
 	
+	//About
 	@GetMapping("/about")
 	public ModelAndView about() {
 		ModelAndView mav = new ModelAndView();
@@ -72,6 +62,7 @@ public class MainController {
 		return mav;
 	}
 	
+	//Contact
 	@GetMapping("/contact")
 	public ModelAndView contact() {
 		ModelAndView mav = new ModelAndView();
@@ -80,14 +71,7 @@ public class MainController {
 		return mav;
 	}
 	
-	@GetMapping("/pricing")
-	public ModelAndView pricing() {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("items/etc/pricing.html");
-		return mav;
-	}
-	
+	//FAQ
 	@GetMapping("/faq")
 	public ModelAndView faq() {
 		ModelAndView mav = new ModelAndView();
@@ -96,23 +80,18 @@ public class MainController {
 		return mav;
 	}
 	
-	@GetMapping("/bloghome")
-	public ModelAndView bloghome() {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("items/blog/home.html");
+	///////////////////////////////////////////////////////////////////
+	//Not Enable Pages
+	//Price (Not Enable)
+	@GetMapping("/pricing")
+	public ModelAndView pricing() {
+		ModelAndView mav = new ModelAndView();			
+		mav.setViewName("items/etc/pricing.html");
 		return mav;
 	}
 	
-	@GetMapping("/blogpost")
-	public ModelAndView blogpost() {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("items/blog/post.html");
-		return mav;
-	}
-	
-	@GetMapping("/portfolioview")
+	//Use Only Dev Mode
+	@GetMapping("/portfolio/view")
 	public ModelAndView portfolioview() {
 		ModelAndView mav = new ModelAndView();
 		
@@ -120,65 +99,11 @@ public class MainController {
 		return mav;
 	}
 	
-	@GetMapping("/portfolioitem")
+	@GetMapping("/portfolio/item")
 	public ModelAndView portfolioitem() {
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("items/portfolio/items.html");
-		return mav;
-	}
-	
-
-
-	//Get Post Items
-	private ModelAndView getPosts() {
-		ModelAndView mav = new ModelAndView();
-		
-		PostDomain posts = postService.getLastPost();
-		
-		return mav;
-	}
-	
-	
-	//SSL Check (No Use)
-	/*
-	@RequestMapping(value = "/.well-known/acme-challenge/{name}")
-	public ModelAndView sslcheck(@PathVariable("name") String name) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println("name chk : " + name);
-		mav.setViewName("redirect:/");
-
-		return mav;
-	}
-	*/
-	
-	//Error시 강제 리턴
-
-	//Error
-	@PostMapping("/error")
-	public ModelAndView errorOverrie() {
-		ModelAndView mav = new ModelAndView();
-		System.out.println("WEB ERROR");
-		mav.setViewName("redirect:/");
-
-		return mav;
-	}
-	
-	//--------------------------------------------------
-	//DEV
-	@RequestMapping(value = "/dev")
-	public ModelAndView dev(HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println("DEV Enable (Http Attribute reset)");
-		
-		HttpSession hs = req.getSession();
-		
-		hs.setAttribute("isLoginned", 0);
-		hs.removeAttribute("isLoginned");
-		
-		
-		mav.setViewName("redirect:/");
-
 		return mav;
 	}
 }

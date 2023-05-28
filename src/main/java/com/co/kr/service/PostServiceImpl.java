@@ -1,5 +1,8 @@
 package com.co.kr.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,12 @@ public class PostServiceImpl implements PostService {
 	private PostMapper postMapper;
 
 	@Override
-	public PostDomain getLastPost() {
+	public List<PostDomain> getLastPost() {
 		return postMapper.getLastPost();
+	}
+
+	@Override
+	public PostDomain getSinglePost(Map<String, String> map) {
+		return postMapper.getSinglePost(map);
 	}
 }

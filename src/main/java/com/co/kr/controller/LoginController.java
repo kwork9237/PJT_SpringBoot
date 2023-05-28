@@ -136,9 +136,6 @@ public class LoginController {
 			//sha-512 encrypted password
 			String[] enc_res = Encrypt.pwEncrypt(log.getPw());
 			
-			//TEST
-			//String[] enc_res = Encrypt.encrypt("aaaaa");
-			
 			//loginDomain Build
 			LoginDomain logDomain = LoginDomain.builder()
 					.mbMail(log.getMail())
