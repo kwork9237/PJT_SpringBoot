@@ -10,9 +10,9 @@ import com.co.kr.domain.LoginDomain;
 public interface MemberMapper {
 	//READ
 	public int chkMember(Map<String, String> map);
-	public LoginDomain getMember(Map<String, String> map);
-	
 	public int chkCode(Map<String, String> map);
+	public int chkMail(Map<String, String> map);
+	public LoginDomain getMember(Map<String, String> map);
 	public LoginDomain getCode(Map<String, String> map);
 	
 	//CREATE

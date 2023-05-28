@@ -25,6 +25,10 @@ public class Encrypt {
 			
 			res[0] = String.format("%0128x", new BigInteger(1, md.digest()));
 			res[1] = salt;
+			
+			System.out.println("pwEncrypt");
+			System.out.println(res[0]);
+			System.out.println(res[1]);
 		}
 		catch (NoSuchAlgorithmException e) {
 			System.out.println("ERROR : NoSuchAlgorithmException");

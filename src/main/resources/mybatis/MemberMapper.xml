@@ -2,8 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.co.kr.mapper.MemberMapper">
+	<!-- READ -->
 	<select id="chkMember" resultType="int" parameterType="hashMap">
 		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail} OR mb_id=#{mbId} 
+	</select>
+	
+	<select id="chkMail" resultType="int" parameterType="hashMap">
+		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail}
 	</select>
 	
 	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
@@ -14,10 +19,12 @@
 		SELECT COUNT(*) FROM pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
+	<!-- READ -->
 	<select id="getCode" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
 		SELECT * FROM pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
+	<!-- CREATE -->
 	<insert id="createMember" parameterType="com.co.kr.domain.LoginDomain">
 		INSERT INTO pjt.member(
 			mb_mail,
@@ -33,14 +40,17 @@
 		)
 	</insert>
 	
+	<!-- UPDATE -->
 	<update id="updateMember" parameterType="com.co.kr.domain.LoginDomain">
 		UPDATE pjt.member SET
 			mb_mail=#{mbMail},
 			mb_id=#{mbId},
-			mb_pw=#{mbPw}
+			mb_pw=#{mbPw},
+			mb_salt=#{mbSalt}
 		WHERE mb_code=#{mbCode}
 	</update>
 	
+	<!-- DELETE -->
 	<delete id="deleteMember" parameterType="hashMap">
 		DELETE FROM pjt.member WHERE mb_code=#{mbCode}
 	</delete>

@@ -161,48 +161,76 @@ public class MainController {
 		return mav;
 	}
 	
+	//Profile Update
 	@PostMapping("/profile/update")
 	public ModelAndView profileUpdate(LoginVO log, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("mbCode", log.getCode());
+
+		LoginDomain oldMbInfo = mbService.getCode(map);
 		
-		LoginDomain mbInfo = mbService.getCode(map);
-		LoginDomain newMbInfo;
-		
-		if(mbService.chkMember(map) != 1) {
-			mav.addObject("data", new Message("로그인에 성공하셨습니다.", "/"));
-			mav.setViewName("/static/Message");
-		}
-		
-		else {
-			if(mbInfo.getMbPw().equals(log.getPw())) {
-				newMbInfo = LoginDomain.builder()
-						.mbMail(log.getMail())
-						.mbId(log.getId())
-						.build();
-			}
-			else {
-				String[] newPw = Encrypt.pwEncrypt(log.getPw());
-				
-				newMbInfo = LoginDomain.builder()
-						.mbMail(log.getMail())
-						.mbId(log.getId())
-						.mbPw(newPw[0])
-						.mbSalt(newPw[1])
-						.build();
-			}
+		if(oldMbInfo.getMbMail().equals(log.getMail())) {
+			String[] newPw = Encrypt.pwEncrypt(log.getPw());
+			LoginDomain newMbInfo = LoginDomain.builder()
+					.mbCode(log.getCode())
+					.mbMail(log.getMail())
+					.mbId(log.getId())
+					.mbPw(newPw[0])
+					.mbSalt(newPw[1])
+					.build();
 			
 			mbService.updateMember(newMbInfo);
-			mav.setViewName("redirect:/profile");
+			mav.addObject("data", new Message("비밀번호가 변경되었습니다.", "/profile"));
+			mav.setViewName("/static/Message");
 		}
-		/*
-		System.out.println(log.getCode());
-		System.out.println(log.getId());
-		System.out.println(log.getMail());
-		System.out.println(log.getPw());
-		*/
+		else {
+			String[] newPw = Encrypt.pwEncrypt(log.getPw());
+			LoginDomain newMbInfo = LoginDomain.builder()
+					.mbCode(log.getCode())
+					.mbMail(log.getMail())
+					.mbId(log.getId())
+					.mbPw(newPw[0])
+					.mbSalt(newPw[1])
+					.build();
+	
+			mbService.updateMember(newMbInfo);
+			mav.addObject("data", new Message("이메일과 비밀번호가 변경되었습니다.", "/profile"));
+			mav.setViewName("/static/Message");
+		}
+		return mav;
+	}
+
+	//Profile Delte
+	@GetMapping("/profile/delete")
+	public ModelAndView profileDelte(HttpServletRequest req, HttpServletResponse res) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession hs = req.getSession();
+		
+		String mbCode = (String) hs.getAttribute("mbCode");
+		Map<String, String> map = new HashMap<>();
+		map.put("mbCode", mbCode);
+		
+		mbService.deleteMember(map);
+		
+		//clear data		
+		hs.removeAttribute("mbCode");
+		hs.removeAttribute("isLoginned");
+		hs.removeAttribute("isAdmin");
+		
+		//쿠키 제거
+		Cookie[] cookies = req.getCookies();
+				
+		if(cookies != null) {
+			for(int i = 0; i < cookies.length; i++) {
+				cookies[i].setMaxAge(0);
+				res.addCookie(cookies[i]);
+			}				
+		}
+		
+		mav.addObject("data", new Message("회원탈퇴가 완료되었습니다.", "/login"));
+		mav.setViewName("/static/Message");
 		
 		return mav;
 	}
@@ -213,7 +241,9 @@ public class MainController {
 		ModelAndView mav = new ModelAndView();
 		
 		HttpSession hs = req.getSession();
+		hs.removeAttribute("mbCode");
 		hs.removeAttribute("isLoginned");
+		hs.removeAttribute("isAdmin");
 		
 		//쿠키 제거
 		Cookie[] cookies = req.getCookies();
@@ -228,8 +258,6 @@ public class MainController {
 		mav.setViewName("redirect:/login");
 		return mav;
 	}
-	
-	//Login
 	
 	//Login
 	@GetMapping("/login")
@@ -293,8 +321,6 @@ public class MainController {
 		return mav;
 	}
 	
-	//Regeister
-	
 	//Register
 	@GetMapping("/register")
 	public ModelAndView register() {
@@ -303,9 +329,7 @@ public class MainController {
 		mav.setViewName("/items/signin/register.html");
 		return mav;
 	}
-	
-	//Member Create
-	
+
 	//Create
 	@PostMapping("/create")
 	public ModelAndView create(LoginVO log) {
@@ -354,6 +378,7 @@ public class MainController {
 		
 		return mav;
 	}
+	
 	
 	//SSL Check (No Use)
 	/*

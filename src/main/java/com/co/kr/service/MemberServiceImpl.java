@@ -20,13 +20,18 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public LoginDomain getMember(Map<String, String> map) {
-		return mbMapper.getMember(map);
-	}
-
-	@Override
 	public int chkCode(Map<String, String> map) {
 		return mbMapper.chkMember(map);
+	}
+	
+	@Override
+	public int chkMail(Map<String, String> map) {
+		return mbMapper.chkMail(map);
+	}
+	
+	@Override
+	public LoginDomain getMember(Map<String, String> map) {
+		return mbMapper.getMember(map);
 	}
 
 	@Override
