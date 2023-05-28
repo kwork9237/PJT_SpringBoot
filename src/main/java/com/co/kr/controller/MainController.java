@@ -1,31 +1,19 @@
 package com.co.kr.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.co.kr.domain.LoginDomain;
 import com.co.kr.domain.PostDomain;
-import com.co.kr.utils.Encrypt;
 import com.co.kr.utils.Message;
 import com.co.kr.service.MemberService;
 import com.co.kr.service.PostService;
-import com.co.kr.vo.LoginVO;
 
 @Controller
 @RequestMapping(value = "/")
@@ -140,236 +128,8 @@ public class MainController {
 		return mav;
 	}
 	
-	//Profile
-	@GetMapping("/profile")
-	public ModelAndView profile(HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView();
-		
-		HttpSession hs = req.getSession();
-		String code = (String) hs.getAttribute("mbCode");
-		
-		Map<String, String> map = new HashMap<>();
-		map.put("mbCode", code);
-		
-		LoginDomain mbInfo = mbService.getCode(map);
-		
-		mav.addObject("mbCode", mbInfo.getMbCode());
-		mav.addObject("mbMail", mbInfo.getMbMail());
-		mav.addObject("mbId", mbInfo.getMbId());
-		mav.addObject("mbPw", mbInfo.getMbPw());
-		mav.setViewName("items/profile/profile.html");
-		return mav;
-	}
-	
-	//Profile Update
-	@PostMapping("/profile/update")
-	public ModelAndView profileUpdate(LoginVO log, HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView();
-		
-		Map<String, String> map = new HashMap<>();
-		map.put("mbCode", log.getCode());
 
-		LoginDomain oldMbInfo = mbService.getCode(map);
-		
-		if(oldMbInfo.getMbMail().equals(log.getMail())) {
-			String[] newPw = Encrypt.pwEncrypt(log.getPw());
-			LoginDomain newMbInfo = LoginDomain.builder()
-					.mbCode(log.getCode())
-					.mbMail(log.getMail())
-					.mbId(log.getId())
-					.mbPw(newPw[0])
-					.mbSalt(newPw[1])
-					.build();
-			
-			mbService.updateMember(newMbInfo);
-			mav.addObject("data", new Message("비밀번호가 변경되었습니다.", "/profile"));
-			mav.setViewName("/static/Message");
-		}
-		else {
-			String[] newPw = Encrypt.pwEncrypt(log.getPw());
-			LoginDomain newMbInfo = LoginDomain.builder()
-					.mbCode(log.getCode())
-					.mbMail(log.getMail())
-					.mbId(log.getId())
-					.mbPw(newPw[0])
-					.mbSalt(newPw[1])
-					.build();
-	
-			mbService.updateMember(newMbInfo);
-			mav.addObject("data", new Message("이메일과 비밀번호가 변경되었습니다.", "/profile"));
-			mav.setViewName("/static/Message");
-		}
-		return mav;
-	}
 
-	//Profile Delte
-	@GetMapping("/profile/delete")
-	public ModelAndView profileDelte(HttpServletRequest req, HttpServletResponse res) {
-		ModelAndView mav = new ModelAndView();
-		HttpSession hs = req.getSession();
-		
-		String mbCode = (String) hs.getAttribute("mbCode");
-		Map<String, String> map = new HashMap<>();
-		map.put("mbCode", mbCode);
-		
-		mbService.deleteMember(map);
-		
-		//clear data		
-		hs.removeAttribute("mbCode");
-		hs.removeAttribute("isLoginned");
-		hs.removeAttribute("isAdmin");
-		
-		//쿠키 제거
-		Cookie[] cookies = req.getCookies();
-				
-		if(cookies != null) {
-			for(int i = 0; i < cookies.length; i++) {
-				cookies[i].setMaxAge(0);
-				res.addCookie(cookies[i]);
-			}				
-		}
-		
-		mav.addObject("data", new Message("회원탈퇴가 완료되었습니다.", "/login"));
-		mav.setViewName("/static/Message");
-		
-		return mav;
-	}
-	
-	//Logout
-	@GetMapping("/logout")
-	public ModelAndView logout(HttpServletRequest req, HttpServletResponse res) {
-		ModelAndView mav = new ModelAndView();
-		
-		HttpSession hs = req.getSession();
-		hs.removeAttribute("mbCode");
-		hs.removeAttribute("isLoginned");
-		hs.removeAttribute("isAdmin");
-		
-		//쿠키 제거
-		Cookie[] cookies = req.getCookies();
-				
-		if(cookies != null) {
-			for(int i = 0; i < cookies.length; i++) {
-				cookies[i].setMaxAge(0);
-				res.addCookie(cookies[i]);
-			}				
-		}
-		
-		mav.setViewName("redirect:/login");
-		return mav;
-	}
-	
-	//Login
-	@GetMapping("/login")
-	public ModelAndView login(HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView();
-		HttpSession hs = req.getSession();
-		
-		//로그인시 강제 리다이렉트
-		try {
-			if((Integer)hs.getAttribute("isLoginned") == 1) {
-				//System.out.println("logined value is null");
-				mav.setViewName("redirect:/main");
-			}
-			else
-				mav.setViewName("items/signin/login.html");
-		}
-		catch(NullPointerException e) {
-			mav.setViewName("items/signin/login.html");
-		}
-		
-		return mav;
-	}
-	
-	//Sign in
-	@PostMapping("/signin")
-	public ModelAndView signin(LoginVO log, HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView();
-		LoginDomain mbInfo;
-		
-		Map<String, String> map = new HashMap<>();
-		map.put("mbId", log.getId());
-		map.put("mbMail", log.getMail());
-		
-		try {
-			mbInfo = mbService.getMember(map);
-			
-			Integer loginChk = Encrypt.pwCheck(log.getPw(), mbInfo.getMbSalt(), mbInfo.getMbPw());
-			if(loginChk == 1) {
-				System.out.println(log.getId() + " : was loginned");
-				mav.addObject("data", new Message("로그인에 성공하셨습니다.", "/"));
-				mav.setViewName("/static/Message");
-				
-				//Session 처리
-				HttpSession hs = req.getSession();
-				hs.setAttribute("mbCode", mbInfo.getMbCode());
-				hs.setAttribute("isLoginned", 1);
-				hs.setAttribute("isAdmin", mbInfo.getIsAdmin());
-			}
-			
-			else {
-				mav.addObject("data", new Message("틀린 ID 또는 PW입니다.", "/login"));
-				mav.setViewName("/static/Message");
-			}
-		}
-		catch(NullPointerException err) {
-			System.out.println("ERROR : NullPointerException => " + err);
-			mav.addObject("data", new Message("틀린 ID 또는 PW입니다.", "/login"));
-			mav.setViewName("/static/Message");
-		}
-		
-		return mav;
-	}
-	
-	//Register
-	@GetMapping("/register")
-	public ModelAndView register() {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("/items/signin/register.html");
-		return mav;
-	}
-
-	//Create
-	@PostMapping("/create")
-	public ModelAndView create(LoginVO log) {
-		ModelAndView mav = new ModelAndView();
-		
-		Map<String, String> map = new HashMap<>();
-		map.put("mbMail", log.getMail());
-		map.put("mbId", log.getId());
-		
-		Integer mbchk = mbService.chkMember(map);
-		if(mbchk == 0) {
-			//sha-512 encrypted password
-			String[] enc_res = Encrypt.pwEncrypt(log.getPw());
-			
-			//TEST
-			//String[] enc_res = Encrypt.encrypt("aaaaa");
-			
-			//loginDomain Build
-			LoginDomain logDomain = LoginDomain.builder()
-					.mbMail(log.getMail())
-					.mbId(log.getId())
-					.mbPw(enc_res[0])
-					.mbSalt(enc_res[1])
-					.build();
-			
-			//MbCreate
-			mbService.createMember(logDomain);
-			
-			mav.addObject("data", new Message("회원가입이 완료되었습니다.", "/login"));
-			mav.setViewName("/static/Message");
-		}
-		
-		else {
-			mav.addObject("data", new Message("중복된 아이디 또는 이메일입니다.", "/register"));
-			mav.setViewName("/static/Message");
-		}
-		
-		return mav;
-	}
-	
 	//Get Post Items
 	private ModelAndView getPosts() {
 		ModelAndView mav = new ModelAndView();
