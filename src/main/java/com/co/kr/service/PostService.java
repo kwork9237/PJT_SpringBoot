@@ -18,4 +18,8 @@ public interface PostService {
 
 	//DELETE
 	public void deletePost(Map<String, String> map);
+	
+	//Advanced
+	public List<PostDomain> getPostList(Map<String, Integer> map);
+	public Integer getPostCount();
 }

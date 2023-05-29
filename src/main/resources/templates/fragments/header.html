@@ -52,7 +52,7 @@
 						</li>
 						
 						<!-- Not Loginned -->
-						<li class="nav-item dropdown" th:if="${session.isLoginned == 0}">
+						<li class="nav-item dropdown" th:unless="${session.isLoginned == 1}">
 							<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Info</a>
 							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownInfo">
 								<li><a class="dropdown-item" th:href="@{/login}">Login</a></li>

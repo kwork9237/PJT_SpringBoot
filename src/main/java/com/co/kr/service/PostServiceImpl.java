@@ -42,4 +42,14 @@ public class PostServiceImpl implements PostService {
 	public void deletePost(Map<String, String> map) {
 		postMapper.deletePost(map);
 	}
+
+	@Override
+	public List<PostDomain> getPostList(Map<String, Integer> map) {
+		return postMapper.getPostList(map);
+	}
+
+	@Override
+	public Integer getPostCount() {
+		return postMapper.getPostCount();
+	}
 }

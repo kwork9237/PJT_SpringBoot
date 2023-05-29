@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.co.kr.domain.LoginDomain;
 import com.co.kr.domain.PostDomain;
 import com.co.kr.service.MemberService;
 import com.co.kr.service.PostService;
+import com.co.kr.utils.Message;
+import com.co.kr.utils.Pagination;
 import com.co.kr.vo.PostVO;
 
 @Controller
@@ -75,6 +78,32 @@ public class BlogController {
 		return mav;
 	}
 	
+	//Show List(post)
+	//
+	@GetMapping("/blog/postList")
+	public ModelAndView postList(@RequestParam("page") String page, HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String, Object> pegmap;
+		pegmap = Pagination.pagination(postService.getPostCount(), req);
+		
+		Map<String, Integer> postMap =new HashMap<>();
+		postMap.put("start", (Integer) pegmap.get("offset"));
+		List <PostDomain> posts = postService.getPostList(postMap);
+		
+		if(posts != null) {
+			mav.addAllObjects(pegmap);
+			mav.addObject("items", posts);
+			mav.addObject("itemsNotEmpty", true);
+		}
+		
+		else
+			mav.addObject("itemsNotEmpty", false);
+		
+		mav.setViewName("items/blog/postlist.html");
+		return mav;
+	}
+	
 	//Update post
 	@GetMapping("/blog/update/{postId}")
 	public ModelAndView blogPostUpdate(@ModelAttribute("postVO") PostVO postVO, @PathVariable("postId") String postId, HttpServletRequest req) {
@@ -121,6 +150,22 @@ public class BlogController {
 		String postId = postVO.getId();
 		String path = "/blog/post/" + postId;
 		mav.setViewName("redirect:" + path);
+		return mav;
+	}
+	
+	//Delete post
+	@GetMapping("/blog/delete/{postId}")
+	public ModelAndView blogPostDelete(@PathVariable("postId") String postId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String, String> postMap = new HashMap<>();
+		postMap.put("postId", postId);
+		
+		postService.deletePost(postMap);
+		
+		mav.addObject("data", new Message("게시글이 삭제되었습니다.", "/blog/home"));
+		mav.setViewName("/static/Message");
+		
 		return mav;
 	}
 	

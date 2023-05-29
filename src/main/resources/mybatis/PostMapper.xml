@@ -50,4 +50,16 @@
 	<delete id="deletePost" parameterType="hashMap">
 		DELETE FROM pjt.post WHERE po_id=#{postId}
 	</delete>
+	
+	<!-- GET POST LIST -->
+	<select id="getPostList" resultType="com.co.kr.domain.PostDomain" parameterType="hashMap">
+		SELECT * FROM pjt.post
+		ORDER BY po_id DESC
+		LIMIT #{start}, 10
+	</select>
+	
+	<!-- GET POST COUNT -->
+	<select id="getPostCount" resultType="int">
+		SELECT count(*) FROM pjt.post
+	</select>
 </mapper>

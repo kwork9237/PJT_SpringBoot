@@ -21,4 +21,8 @@ public interface PostMapper {
 	
 	//DELETE
 	public void deletePost(Map<String, String> map);
+	
+	//LIST
+	public List<PostDomain> getPostList(Map<String, Integer> map);
+	public Integer getPostCount();
 }
