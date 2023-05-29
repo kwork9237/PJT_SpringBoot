@@ -12,9 +12,9 @@ public class PostDomain {
 	private String postAuthor;
 	private String postTitle;
 	private String postContent;
-	private String postQcontent;
+	private String postSubtitle;
 	private String postTags;
-	private String postSimg;
+	private String postAuthorimg;
 	private String postMimg;
 	private String postDate;
 }

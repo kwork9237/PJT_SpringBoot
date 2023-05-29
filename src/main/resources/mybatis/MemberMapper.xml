@@ -19,9 +19,12 @@
 		SELECT COUNT(*) FROM pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
-	<!-- READ -->
 	<select id="getCode" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
 		SELECT * FROM pjt.member WHERE mb_code=#{mbCode}
+	</select>
+	
+	<select id="getImage" resultType="string" parameterType="hashMap">
+		SELECT po_authorimg pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
 	<!-- CREATE -->
@@ -46,7 +49,8 @@
 			mb_mail=#{mbMail},
 			mb_id=#{mbId},
 			mb_pw=#{mbPw},
-			mb_salt=#{mbSalt}
+			mb_salt=#{mbSalt},
+			mb_image=#{mbImage}
 		WHERE mb_code=#{mbCode}
 	</update>
 	

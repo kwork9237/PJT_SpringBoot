@@ -4,12 +4,43 @@
 <mapper namespace="com.co.kr.mapper.PostMapper">
 	<!-- LAST 6 items -->
 	<select id="getLastPost" resultType="com.co.kr.domain.PostDomain">
-		SELECT * FROM pjt.post ORDER BY po_id DESC LIMIT 6;
+		SELECT * FROM pjt.post ORDER BY po_id DESC LIMIT 6
 	</select>
 	
 	<select id="getSinglePost" resultType="com.co.kr.domain.PostDomain" parameterType="hashMap">
-		SELECT * FROM pjt.post WHERE po_id=#{postId};
+		SELECT * FROM pjt.post WHERE po_id=#{postId}
 	</select>
 	
+	<insert id="createPost" parameterType="com.co.kr.domain.LoginDomain">
+	</insert>
 	
+	<update id="updatePost" parameterType="com.co.kr.domain.PostDomain">
+		UPDATE pjt.post SET
+			po_title=#{postTitle}
+			po_subtitle=#{postSubtitle}
+			po_content=#{postContent}
+			po_tags=#{postTags}
+			po_authorimg=#{postAuthorimg}
+			po_mimg=#{postMimg}
+		WHERE po_id=#{postId}
+	</update>
+	
+	<delete id="deletePost" parameterType="hashMap">
+		DELETE FROM pjt.post WHERE po_id=#{postId}
+	</delete>
 </mapper>
+
+<!-- 
+
+
+private String postId;
+	private String postAuthor;
+	private String postTitle;
+	private String postContent;
+	private String postSubtitle;
+	private String postTags;
+	private String postSimg;
+	private String postMimg;
+	private String postDate;
+
+ -->

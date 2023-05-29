@@ -15,8 +15,8 @@
                         <div class="col-lg-3">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
                             	<!-- Small image -->
-                                <img class="img-fluid rounded-circle" th:src="${item.postSimg}" alt="..." th:if="${item.postSimg != null}" />
-                                <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." th:unless="${item.postSimg != null}"/>
+                                <img class="img-fluid rounded-circle" th:src="${item.postAuthorimg}" alt="..." th:if="${item.postAuthorimg != null}" />
+                                <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." th:unless="${item.postAuthorimg != null}"/>
                                 
                                 <div class="ms-3">
                                     <div class="fw-bold" th:text=${item.postAuthor}></div>

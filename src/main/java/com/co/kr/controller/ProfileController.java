@@ -43,7 +43,7 @@ public class ProfileController {
 		mav.addObject("mbCode", mbInfo.getMbCode());
 		mav.addObject("mbMail", mbInfo.getMbMail());
 		mav.addObject("mbId", mbInfo.getMbId());
-		//mav.addObject("mbPw", mbInfo.getMbPw());
+		mav.addObject("mbImage", mbInfo.getMbImage());
 		mav.setViewName("items/profile/profile.html");
 		return mav;
 	}
@@ -66,6 +66,7 @@ public class ProfileController {
 					.mbId(log.getId())
 					.mbPw(newPw[0])
 					.mbSalt(newPw[1])
+					.mbImage("null")
 					.build();
 			
 			mbService.updateMember(newMbInfo);
@@ -80,6 +81,7 @@ public class ProfileController {
 					.mbId(log.getId())
 					.mbPw(newPw[0])
 					.mbSalt(newPw[1])
+					.mbImage("null")
 					.build();
 	
 			mbService.updateMember(newMbInfo);

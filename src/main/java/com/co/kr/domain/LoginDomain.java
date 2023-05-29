@@ -13,5 +13,6 @@ public class LoginDomain {
 	private String mbId;
 	private String mbPw;
 	private String mbSalt;
+	private String mbImage;
 	private Integer isAdmin;
 }
