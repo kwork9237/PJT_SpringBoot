@@ -80,14 +80,14 @@ public class BlogController {
 	public ModelAndView blogPostUpdate(@ModelAttribute("postVO") PostVO postVO, @PathVariable("postId") String postId, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
-		HttpSession hs = req.getSession();
-		Map<String, String> mbMap = new HashMap<>();
-		mbMap.put("mbCode", (String)hs.getAttribute("mbCode"));
-		LoginDomain mb = mbService.getMember(mbMap);
-		
 		Map<String, String> postMap = new HashMap<>();
 		postMap.put("postId", postId);
 		PostDomain post = postService.getSinglePost(postMap);
+		
+		//HttpSession hs = req.getSession();
+		Map<String, String> mbMap = new HashMap<>();
+		mbMap.put("mbCode", post.getPostAuthorId());
+		LoginDomain mb = mbService.getCode(mbMap);
 		
 		postVO.setId(post.getPostId());
 		postVO.setTitle(post.getPostTitle());
@@ -103,7 +103,9 @@ public class BlogController {
 	}
 	
 	@PostMapping("/blog/update/postUpdate")
-	public void postUpdateCommit(PostVO postVO) {
+	public ModelAndView postUpdateCommit(PostVO postVO) {
+		ModelAndView mav = new ModelAndView();
+		
 		PostDomain post = PostDomain.builder()
 				.postId(postVO.getId())
 				.postTitle(postVO.getTitle())
@@ -115,6 +117,11 @@ public class BlogController {
 				.build();
 		
 		postService.updatePost(post);
+		
+		String postId = postVO.getId();
+		String path = "/blog/post/" + postId;
+		mav.setViewName("redirect:" + path);
+		return mav;
 	}
 	
 	//Make post
@@ -140,7 +147,7 @@ public class BlogController {
 		//Get Mbinfo
 		HttpSession hs = req.getSession();
 		Map<String, String> map = new HashMap<>();
-		map.put("mbCode",  (String) hs.getAttribute("mbCode"));
+		map.put("mbCode", Integer.toString((Integer)hs.getAttribute("mbCode")));
 		LoginDomain mb = mbService.getCode(map);
 		
 		//Now Time
@@ -150,6 +157,7 @@ public class BlogController {
 		
 		PostDomain post = PostDomain.builder()
 				.postAuthor(mb.getMbName())
+				.postAuthorId(mb.getMbCode())
 				.postTitle(postVO.getTitle())
 				.postSubtitle(postVO.getSubtitle())
 				.postContent(postVO.getContent())

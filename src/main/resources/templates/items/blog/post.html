@@ -23,6 +23,15 @@
                                     <div class="text-muted" th:text=${item.postTags}></div>
                                 </div>
                             </div>
+                            
+                            <!-- Admin Only -->
+                            <div class="d-flex align-items-center mt-lg-5 mb-4">
+                            	<a th:href="@{/blog/update/{pid}(pid = ${item.postId})}"
+                            	   th:if="${session.isAdmin == 1}" 
+                            		class="btn btn-primary btn-block mb-3">
+                            		Post Update
+                            	</a>
+                            </div>
                         </div>
                         
                         <!-- in post -->

@@ -11,18 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/")
 public class DevController {	
-	//Apache2 test (SSL Check)
-	/*
-	@RequestMapping(value = "/.well-known/acme-challenge/{name}")
-	public ModelAndView sslcheck(@PathVariable("name") String name) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println("name chk : " + name);
-		mav.setViewName("redirect:/");
-
-		return mav;
-	}
-	*/
-
 	//Error Page
 	@PostMapping("/error")
 	public ModelAndView error() {
@@ -43,12 +31,12 @@ public class DevController {
 
 		hs.setAttribute("isAdmin", 0);
 		hs.setAttribute("isLoginned", 0);
-		hs.setAttribute("mbCode", 0);
+		//hs.setAttribute("mbCode", 0);
 		hs.setAttribute("devMode", 0);
 
 		hs.removeAttribute("isAdmin");
 		hs.removeAttribute("isLoginned");
-		hs.removeAttribute("mbCode");
+		//hs.removeAttribute("mbCode");
 		hs.removeAttribute("devMode");
 
 		mav.setViewName("redirect:/");
@@ -67,7 +55,7 @@ public class DevController {
 		hs.setAttribute("isAdmin", 1);
 		hs.setAttribute("devMode", 1);
 		hs.setAttribute("isLoginned", 1);
-		hs.setAttribute("mbCode", 0);
+		//hs.setAttribute("mbCode", 0);
 		
 		mav.setViewName("redirect:/");
 

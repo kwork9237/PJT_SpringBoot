@@ -21,6 +21,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                                 <li><a class="dropdown-item" th:href="@{/blog/home}">Blog Home</a></li>
                                 <li><a class="dropdown-item" th:href="@{/blog/post}">Blog Post</a></li>
+                                <li><a class="dropdown-item" th:if="${session.isAdmin == 1}" th:href="@{/blog/create}">Post Create</a></li>
                             </ul>
                         </li>
                         
@@ -37,7 +38,7 @@
 						<li class="nav-item dropdown" th:if="${session.isAdmin == 1}">
 							<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
 							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownInfo">
-								<li><a class="dropdown-item" th:href="@{/logout}">Post</a></li>
+								<li><a class="dropdown-item" th:href="@{/manage}">Manage</a></li>
 							</ul>
 						</li>
 						

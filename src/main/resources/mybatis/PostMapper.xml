@@ -11,9 +11,10 @@
 		SELECT * FROM pjt.post WHERE po_id=#{postId}
 	</select>
 	
-	<insert id="createPost" parameterType="com.co.kr.domain.LoginDomain">
+	<insert id="createPost" parameterType="com.co.kr.domain.PostDomain">
 		INSERT INTO pjt.post(
 			po_author,
+			po_authorid,
 			po_title,
 			po_subtitle,
 			po_content,
@@ -24,6 +25,7 @@
 		)
 		VALUES(
 			#{postAuthor},
+			#{postAuthorId},
 			#{postTitle},
 			#{postSubtitle},
 			#{postContent},
@@ -36,11 +38,11 @@
 	
 	<update id="updatePost" parameterType="com.co.kr.domain.PostDomain">
 		UPDATE pjt.post SET
-			po_title=#{postTitle}
-			po_subtitle=#{postSubtitle}
-			po_content=#{postContent}
-			po_tags=#{postTags}
-			po_authorimg=#{postAuthorimg}
+			po_title=#{postTitle},
+			po_subtitle=#{postSubtitle},
+			po_content=#{postContent},
+			po_tags=#{postTags},
+			po_authorimg=#{postAuthorimg},
 			po_mimg=#{postMimg}
 		WHERE po_id=#{postId}
 	</update>

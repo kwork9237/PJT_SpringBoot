@@ -10,6 +10,7 @@ import lombok.Setter;
 public class PostDomain {
 	private String postId;
 	private String postAuthor;
+	private String postAuthorId;
 	private String postTitle;
 	private String postContent;
 	private String postSubtitle;
