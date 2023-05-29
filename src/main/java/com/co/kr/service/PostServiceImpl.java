@@ -14,6 +14,7 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private PostMapper postMapper;
 
+	//READ
 	@Override
 	public List<PostDomain> getLastPost() {
 		return postMapper.getLastPost();
@@ -22,5 +23,23 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDomain getSinglePost(Map<String, String> map) {
 		return postMapper.getSinglePost(map);
+	}
+
+	//CREATE
+	@Override
+	public void createPost(PostDomain post) {
+		postMapper.createPost(post);
+	}
+
+	//UPDATE
+	@Override
+	public void updatePost(PostDomain post) {
+		postMapper.updatePost(post);
+	}
+
+	//DELETE
+	@Override
+	public void deletePost(Map<String, String> map) {
+		postMapper.deletePost(map);
 	}
 }

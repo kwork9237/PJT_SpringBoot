@@ -11,41 +11,42 @@
 		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail}
 	</select>
 	
-	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
-		SELECT * FROM pjt.member WHERE mb_id=#{mbId} OR mb_mail=#{mbMail}
-	</select>
-	
 	<select id="chkCode" resultType="int" parameterType="hashMap">
 		SELECT COUNT(*) FROM pjt.member WHERE mb_code=#{mbCode}
+	</select>
+	
+	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
+		SELECT * FROM pjt.member WHERE mb_id=#{mbId} OR mb_mail=#{mbMail}
 	</select>
 	
 	<select id="getCode" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
 		SELECT * FROM pjt.member WHERE mb_code=#{mbCode}
 	</select>
 	
-	<select id="getImage" resultType="string" parameterType="hashMap">
-		SELECT po_authorimg pjt.member WHERE mb_code=#{mbCode}
-	</select>
-	
 	<!-- CREATE -->
 	<insert id="createMember" parameterType="com.co.kr.domain.LoginDomain">
 		INSERT INTO pjt.member(
+			mb_name,
 			mb_mail,
 			mb_id,
 			mb_pw,
-			mb_salt
+			mb_salt,
+			mb_image
 		)
 		VALUES(
+			#{mbName},
 			#{mbMail},
 			#{mbId},
 			#{mbPw},
-			#{mbSalt}
+			#{mbSalt},
+			#{mbImage}
 		)
 	</insert>
 	
 	<!-- UPDATE -->
 	<update id="updateMember" parameterType="com.co.kr.domain.LoginDomain">
 		UPDATE pjt.member SET
+			mb_name=#{mbName},
 			mb_mail=#{mbMail},
 			mb_id=#{mbId},
 			mb_pw=#{mbPw},
@@ -58,18 +59,4 @@
 	<delete id="deleteMember" parameterType="hashMap">
 		DELETE FROM pjt.member WHERE mb_code=#{mbCode}
 	</delete>
-	
-	<!-- 
-	Dummy
-	<select id="mbSelectList" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
-		SELECT * FROM jsp.member WHERE mb_seq=#{mbSeq}
-	</select>
-	
-	<select id="mbGetAll" resultType="int">
-		SELECT COUNT(*) FROM jsp.member
-	</select>
-	
-	<update id="" parameterType=""></update>
-	<delete id="" parameterType=""></delete>
-	 -->
 </mapper>

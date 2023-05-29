@@ -15,7 +15,7 @@
                         <div class="col-lg-3">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
                             	<!-- Small image -->
-                                <img class="img-fluid rounded-circle" th:src="${item.postAuthorimg}" alt="..." th:if="${item.postAuthorimg != null}" />
+                                <img class="img-fluid rounded-circle" th:src="${item.postAuthorimg}" alt="..." th:if="${item.postAuthorimg != null}" style="width: 50px; height: 50px"/>
                                 <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." th:unless="${item.postAuthorimg != null}"/>
                                 
                                 <div class="ms-3">
@@ -38,8 +38,8 @@
                                 </header>
                                 
                                 <!-- Preview image figure-->
-                                <figure class="mb-4" th:if="${item.postMimg != null}"><img class="img-fluid rounded" th:src="${item.postMimg}" alt="..." /></figure>
-                                <figure class="mb-4" th:unless="${item.postMimg != null}"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                                <figure class="mb-4" th:if="${item.postMimg != null && item.postMimg != ''}"><img class="img-fluid rounded" th:src="${item.postMimg}" alt="..." style="width: 900px; height: 400px"/></figure>
+                                <figure class="mb-4" th:unless="${item.postMimg != null && item.postMimg != ''}"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
                                 
                                 <!-- Post content-->
                                 <section class="mb-5">

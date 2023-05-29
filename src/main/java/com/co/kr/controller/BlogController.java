@@ -1,18 +1,28 @@
 package com.co.kr.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.co.kr.domain.LoginDomain;
 import com.co.kr.domain.PostDomain;
+import com.co.kr.service.MemberService;
 import com.co.kr.service.PostService;
+import com.co.kr.vo.PostVO;
 
 @Controller
 @RequestMapping(value = "/")
@@ -20,8 +30,12 @@ public class BlogController {
 	@Autowired
 	private PostService postService;
 	
+	@Autowired
+	private MemberService mbService;
+	
+	//Show home
 	@GetMapping("/blog/home")
-	public ModelAndView bloghome() {
+	public ModelAndView blogHome() {
 		ModelAndView mav = new ModelAndView();
 		
 		List<PostDomain> posts = postService.getLastPost();
@@ -41,7 +55,7 @@ public class BlogController {
 	
 	//Show post(postId)
 	@GetMapping("/blog/post/{postId}")
-	public ModelAndView blogpost(@PathVariable("postId") String postId) {
+	public ModelAndView blogPost(@PathVariable("postId") String postId) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String, String> map = new HashMap<>();
@@ -58,6 +72,96 @@ public class BlogController {
 		}
 		
 		mav.setViewName("items/blog/post.html");
+		return mav;
+	}
+	
+	//Update post
+	@GetMapping("/blog/update/{postId}")
+	public ModelAndView blogPostUpdate(@ModelAttribute("postVO") PostVO postVO, @PathVariable("postId") String postId, HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView();
+		
+		HttpSession hs = req.getSession();
+		Map<String, String> mbMap = new HashMap<>();
+		mbMap.put("mbCode", (String)hs.getAttribute("mbCode"));
+		LoginDomain mb = mbService.getMember(mbMap);
+		
+		Map<String, String> postMap = new HashMap<>();
+		postMap.put("postId", postId);
+		PostDomain post = postService.getSinglePost(postMap);
+		
+		postVO.setId(post.getPostId());
+		postVO.setTitle(post.getPostTitle());
+		postVO.setSubtitle(post.getPostSubtitle());
+		postVO.setContent(post.getPostContent());
+		postVO.setTags(post.getPostTags());
+		postVO.setMimg(post.getPostMimg());
+		postVO.setAimg(mb.getMbImage());
+		
+		mav.addObject("postVO", postVO);
+		mav.setViewName("items/blog/update.html");
+		return mav;
+	}
+	
+	@PostMapping("/blog/update/postUpdate")
+	public void postUpdateCommit(PostVO postVO) {
+		PostDomain post = PostDomain.builder()
+				.postId(postVO.getId())
+				.postTitle(postVO.getTitle())
+				.postSubtitle(postVO.getSubtitle())
+				.postContent(postVO.getContent())
+				.postTags(postVO.getTags())
+				.postAuthorimg(postVO.getAimg())
+				.postMimg(postVO.getMimg())
+				.build();
+		
+		postService.updatePost(post);
+	}
+	
+	//Make post
+	@GetMapping("/blog/create")
+	public ModelAndView blogPostCreate(PostVO postVO) {
+		ModelAndView mav = new ModelAndView();
+		
+		postVO.setTitle("");
+		postVO.setSubtitle("");
+		postVO.setContent("");
+		postVO.setTags("");
+		postVO.setMimg("");
+		
+		mav.addObject("postVO", postVO);
+		mav.setViewName("items/blog/create.html");
+		return mav;
+	}
+	
+	@PostMapping("/blog/postCreate")
+	public ModelAndView postCreate(@ModelAttribute("postVO") PostVO postVO, HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView();
+		
+		//Get Mbinfo
+		HttpSession hs = req.getSession();
+		Map<String, String> map = new HashMap<>();
+		map.put("mbCode",  (String) hs.getAttribute("mbCode"));
+		LoginDomain mb = mbService.getCode(map);
+		
+		//Now Time
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String ntime = now.format(timeformat);
+		
+		PostDomain post = PostDomain.builder()
+				.postAuthor(mb.getMbName())
+				.postTitle(postVO.getTitle())
+				.postSubtitle(postVO.getSubtitle())
+				.postContent(postVO.getContent())
+				.postTags(postVO.getTags())
+				.postAuthorimg(mb.getMbImage())
+				.postMimg(postVO.getMimg())
+				.postDate(ntime)
+				.build();
+		
+		postService.createPost(post);
+		
+		mav.setViewName("redirect:/blog/home");
 		return mav;
 	}
 	
@@ -82,5 +186,4 @@ public class BlogController {
 		
 		return post;
 	}
-
 }

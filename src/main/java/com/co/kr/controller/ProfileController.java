@@ -40,10 +40,11 @@ public class ProfileController {
 		
 		LoginDomain mbInfo = mbService.getCode(map);
 		
+		mav.addObject("mbName", mbInfo.getMbName());
 		mav.addObject("mbCode", mbInfo.getMbCode());
 		mav.addObject("mbMail", mbInfo.getMbMail());
 		mav.addObject("mbId", mbInfo.getMbId());
-		mav.addObject("mbImage", mbInfo.getMbImage());
+		mav.addObject("mbImage", mbInfo.getMbImage()); //DUMMY Image
 		mav.setViewName("items/profile/profile.html");
 		return mav;
 	}
@@ -62,11 +63,12 @@ public class ProfileController {
 			String[] newPw = Encrypt.pwEncrypt(log.getPw());
 			LoginDomain newMbInfo = LoginDomain.builder()
 					.mbCode(log.getCode())
+					.mbName(log.getName())
 					.mbMail(log.getMail())
 					.mbId(log.getId())
 					.mbPw(newPw[0])
 					.mbSalt(newPw[1])
-					.mbImage("null")
+					.mbImage("https://http.cat/500") //DUMMY Image
 					.build();
 			
 			mbService.updateMember(newMbInfo);
@@ -77,11 +79,12 @@ public class ProfileController {
 			String[] newPw = Encrypt.pwEncrypt(log.getPw());
 			LoginDomain newMbInfo = LoginDomain.builder()
 					.mbCode(log.getCode())
+					.mbName(log.getName())
 					.mbMail(log.getMail())
 					.mbId(log.getId())
 					.mbPw(newPw[0])
 					.mbSalt(newPw[1])
-					.mbImage("null")
+					.mbImage("https://http.cat/500") //DUMMY Image
 					.build();
 	
 			mbService.updateMember(newMbInfo);

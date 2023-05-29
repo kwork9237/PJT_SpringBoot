@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder(builderMethodName="builder")
 public class LoginDomain {
 	private String mbCode;
+	private String mbName;
 	private String mbMail;
 	private String mbId;
 	private String mbPw;

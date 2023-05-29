@@ -135,13 +135,16 @@ public class LoginController {
 		if(mbchk == 0) {
 			//sha-512 encrypted password
 			String[] enc_res = Encrypt.pwEncrypt(log.getPw());
+			String image = "https://http.cat/500";
 			
 			//loginDomain Build
 			LoginDomain logDomain = LoginDomain.builder()
+					.mbName(log.getName())
 					.mbMail(log.getMail())
 					.mbId(log.getId())
 					.mbPw(enc_res[0])
 					.mbSalt(enc_res[1])
+					.mbImage(image) //DUMMY Image
 					.build();
 			
 			//MbCreate

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+	<head>
+		<title>Create</title>
+	</head>
+	
+	<!-- <body> -->
+	<div layout:fragment="content">
+		<main class="flex-shrink-0">
+			<div class="container px-5 my-5">
+				<div class="row gx-5 justify-content-center">
+					<form th:object=${postVO} role="form" th:action="@{postUpdate}" method="post" enctype="multipart/form-data">
+						<!-- Hidden items -->
+						<div>
+							<input type="hidden" th:field="*{id}" class="form-control" required/>
+						</div>
+					
+						<!-- Title input -->
+					    <div class="form-outline mb-4">
+					    	<label class="form-label" for="name">Title</label>
+				        	<input type="text" th:field="*{title}" class="form-control" required/>
+				      	</div>
+				      	
+				      	<!-- Sub Title input -->
+					    <div class="form-outline mb-4">
+					    	<label class="form-label" for="name">Sub Title</label>
+				        	<input type="text" th:field="*{subtitle}" class="form-control" required/>
+				      	</div>
+				      	
+				      	<!-- Content input -->
+					    <div class="form-outline mb-4">
+					    	<label class="form-label" for="name">Content</label>
+				        	<input type="text" th:field="*{content}" class="form-control" required/>
+				      	</div>
+				      	
+				      	<!-- Tags input -->
+					    <div class="form-outline mb-4">
+					    	<label class="form-label" for="name">Tags</label>
+				        	<input type="text" th:field="*{tags}" class="form-control" required/>
+				      	</div>
+				      	
+				      	<!-- Image Url -->
+					    <div class="form-outline mb-4">
+					    	<label class="form-label" for="name">Image Url</label>
+				        	<input type="url" th:field="*{mimg}" class="form-control"/>
+				      	</div>
+				      	
+				      	<!-- Submit button -->
+      					<div class="form-check d-flex justify-content-center mb-4">
+      						<button type="submit" class="btn btn-primary btn-block mb-3">Update</button>
+      					</div>
+					</form>
+				</div>
+			</div>
+		</main>
+		
+		<!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+	</div>
+</html>

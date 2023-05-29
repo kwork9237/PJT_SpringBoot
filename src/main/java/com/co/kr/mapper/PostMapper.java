@@ -9,6 +9,16 @@ import com.co.kr.domain.PostDomain;
 
 @Mapper
 public interface PostMapper {
+	//READ
 	public List<PostDomain> getLastPost();
 	public PostDomain getSinglePost(Map<String, String> map);
+	
+	//CREATE
+	public void createPost(PostDomain post);
+	
+	//UPDATE
+	public void updatePost(PostDomain post);
+	
+	//DELETE
+	public void deletePost(Map<String, String> map);
 }
