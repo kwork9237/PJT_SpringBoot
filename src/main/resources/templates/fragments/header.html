@@ -9,56 +9,29 @@
                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" th:href="@{/main}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/about}" th:if="${session.devMode == 1}">About</a></li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
-                        <!-- Pricing Not use -->
-                        <!-- 
-                        <li class="nav-item"><a class="nav-link" th:href="@{pricing}">Pricing</a></li>
-                         -->
                         <li class="nav-item"><a class="nav-link" th:href="@{/faq}">FAQ</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                                 <li><a class="dropdown-item" th:href="@{/blog/home}">Blog Home</a></li>
                                 <li><a class="dropdown-item" th:href="@{/blog/post}">Blog Post</a></li>
-                                <li><a class="dropdown-item" th:if="${session.isAdmin == 1}" th:href="@{/blog/create}">Post Create</a></li>
                             </ul>
                         </li>
                         
-                        <!-- USING DEV MODE -->
-                        <li class="nav-item dropdown" th:if="${session.devMode == 1}">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-                                <li><a class="dropdown-item" th:href="@{/portfolio/view}">Portfolio Overview</a></li>
-                                <li><a class="dropdown-item" th:href="@{/portfolio/item}">Portfolio Item</a></li>
-							</ul>
+                        <!-- Admin Only -->
+						<li class="nav-item" th:if="${session.isAdmin == 1}">
+							<a class="nav-link" th:href="@{/manage?page=1}">Manage</a>
 						</li>
-						
-						<!-- isAdmin -->
-						<li class="nav-item dropdown" th:if="${session.isAdmin == 1}">
-							<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
-							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownInfo">
-								<li><a class="dropdown-item" th:href="@{/manage}">Manage</a></li>
-							</ul>
-						</li>
-						
+                        
 						<!-- Loginned -->
-						<li class="nav-item dropdown" th:if="${session.isLoginned == 1}">
-							<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Info</a>
-							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownInfo">
-								<li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
-								<li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
-							</ul>
-						</li>
+						<li class="nav-item" th:if="${session.isLoginned == 1}"><a class="nav-link" th:href="@{/profile}">Profile</a></li>
+						<li class="nav-item" th:if="${session.isLoginned == 1}"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
 						
 						<!-- Not Loginned -->
-						<li class="nav-item dropdown" th:unless="${session.isLoginned == 1}">
-							<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Info</a>
-							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownInfo">
-								<li><a class="dropdown-item" th:href="@{/login}">Login</a></li>
-								<li><a class="dropdown-item" th:href="@{/register}">Register</a></li>
-							</ul>
-						</li>
+						<li class="nav-item" th:unless="${session.isLoginned == 1}"><a class="nav-link" th:href="@{/login}">Login</a></li>
+						<li class="nav-item" th:unless="${session.isLoginned == 1}"><a class="nav-link" th:href="@{/register}">Register</a></li>
                      </ul>
                  </div>
              </div>

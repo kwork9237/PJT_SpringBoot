@@ -13,4 +13,5 @@ public class LoginVO {
 	private String mail;
 	private String id;
 	private String pw;
+	private String isadmin;
 }

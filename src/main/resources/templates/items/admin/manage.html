@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout_admin}">
+	<head>
+		<title>Change</title>
+	</head>
+	<!-- <body> -->
+	<div layout:fragment="content">
+		<main class="flex-shrink-0">
+			<div class="container px-5 my-5">
+				<div class="row gx-5 justify-content-center">
+					<form id="changeForm" role="form" th:action="@{/manage/commit/{code}(code = ${mbCode})}" method="post">
+						<!-- hidden_item -->
+						<div>
+							<input type="hidden" id="code" name="code" th:value=${mbCode} class="form-control" required/>
+						</div>
+					
+				      	<!-- Name input -->
+					    <div class="form-outline mb-4">
+				        	<input type="text" id="name" name="name" th:value=${mbName} class="form-control" required/>
+				        	<label class="form-label" for="name">Name</label>
+				      	</div>
+				
+				      	<!-- Email input -->
+				      	<div class="form-outline mb-4">
+				        	<input type="email" id="mail" name="mail" th:value=${mbMail} class="form-control" required/>
+				        	<label class="form-label" for="mail">Email</label>
+				      	</div>
+				      	
+				      	<!-- Id input -->
+				      	<div class="form-outline mb-4">
+				        	<input type="text" id="id" name="id" th:value=${mbId} class="form-control" th:readonly="true" required/>
+				        	<label class="form-label" for="id">ID</label>
+				      	</div>
+				
+				      	<!-- Password input -->
+				      	<div class="form-outline mb-4">
+				        	<input type="password" id="pw" name="pw" class="form-control"/>
+				        	<label class="form-label" for="pw">Password</label>
+				      	</div>
+				      	
+				      	<!-- Image URL input (DISABLED) -->
+				      	<div class="form-outline mb-4">
+				        	<input type="url" id="img" name="img" th:value=${mbImage} class="form-control" th:readonly="true" required/>
+				        	<label class="form-label" for="img">Image URL</label>
+				      	</div>
+				      	
+				      	<!-- Image URL input (DISABLED) -->
+				      	<div class="form-outline mb-4">
+				        	<input type="text" id="isadmin" name="isadmin" th:value=${isAdmin} class="form-control" onKeyup="this.value=this.value.replace(/[^0-1]/g,'');" required/>
+				        	<label class="form-label" for="isadmin">isAdmin (0 or 1)</label>
+				      	</div>
+				      	
+
+      					<!-- Submit button -->
+      					<div class="form-check d-flex justify-content-center mb-4">
+      						<button type="submit" class="btn btn-primary btn-block mb-3">Change</button>
+      					</div>
+    				</form>
+    				
+    				<form id="dummy1" role="form" method="post" class="form-check d-flex justify-content-center mb-4">
+						<div class="form-outline mb-4">
+							<p>Cancel Change? <a href="/manage?page=1">Back</a></p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</main>
+	</div>
+</html>

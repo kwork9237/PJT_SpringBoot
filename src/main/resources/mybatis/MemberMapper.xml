@@ -4,7 +4,7 @@
 <mapper namespace="com.co.kr.mapper.MemberMapper">
 	<!-- READ -->
 	<select id="chkMember" resultType="int" parameterType="hashMap">
-		SELECT COUNT(*) FROM pjt.member WHERE mb_mail=#{mbMail} OR mb_id=#{mbId} 
+		SELECT COUNT(*) FROM pjt.member WHERE mb_id=#{mbId} 
 	</select>
 	
 	<select id="chkMail" resultType="int" parameterType="hashMap">
@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id="getMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
-		SELECT * FROM pjt.member WHERE mb_id=#{mbId} OR mb_mail=#{mbMail}
+		SELECT * FROM pjt.member WHERE mb_id=#{mbId}
 	</select>
 	
 	<select id="getCode" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">

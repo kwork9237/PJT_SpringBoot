@@ -7,5 +7,34 @@
 		SELECT count(*) FROM pjt.member;
 	</select>
 	
+	<!-- GET Member LIST -->
+	<select id="getMemberList" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
+		SELECT * FROM pjt.member
+		ORDER BY mb_code DESC
+		LIMIT #{start}, 10
+	</select>
 	
+	<!-- GetSingleMember -->
+	<select id="getSingleMember" resultType="com.co.kr.domain.LoginDomain" parameterType="hashMap">
+		SELECT * FROM pjt.member WHERE mb_code=#{mbCode}
+	</select>
+	
+	<!-- Password not update -->
+	<update id="updateMemberInfo" parameterType="com.co.kr.domain.LoginDomain">
+		UPDATE pjt.member SET
+			mb_name=#{mbName},
+			mb_mail=#{mbMail},
+			mb_id=#{mbId},
+			mb_image=#{mbImage},
+			isadmin=#{isAdmin}
+		WHERE mb_code=#{mbCode}
+	</update>
+	
+	<!-- Password update -->
+	<update id="updateMemberPassword" parameterType="hashMap">
+		UPDATE pjt.member SET
+			mb_pw=#{mbPw},
+			mb_salt=#{mbSalt}
+		WHERE mb_code=#{mbCode}
+	</update>
 </mapper>

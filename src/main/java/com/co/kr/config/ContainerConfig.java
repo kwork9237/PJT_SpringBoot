@@ -19,8 +19,6 @@ public class ContainerConfig {
 		Connector ajpConnector = new Connector("AJP/1.3");
 		ajpConnector.setPort(ajpPort);
 		ajpConnector.setAllowTrace(false);
-		//ajpConnector.setSecure(false);
-		//ajpConnector.setScheme("http");
 		((AbstractAjpProtocol<?>)ajpConnector.getProtocolHandler()).setSecretRequired(false);
 		
 		tomcat.addAdditionalTomcatConnectors(ajpConnector);

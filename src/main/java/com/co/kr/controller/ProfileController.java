@@ -72,7 +72,7 @@ public class ProfileController {
 					.build();
 			
 			mbService.updateMember(newMbInfo);
-			mav.addObject("data", new Message("비밀번호가 변경되었습니다.", "/profile"));
+			mav.addObject("data", new Message("비밀번호가 변경되었습니다.", "/main"));
 			mav.setViewName("/static/Message");
 		}
 		else {
@@ -88,7 +88,7 @@ public class ProfileController {
 					.build();
 	
 			mbService.updateMember(newMbInfo);
-			mav.addObject("data", new Message("이메일과 비밀번호가 변경되었습니다.", "/profile"));
+			mav.addObject("data", new Message("이메일과 비밀번호가 변경되었습니다.", "/main"));
 			mav.setViewName("/static/Message");
 		}
 		return mav;

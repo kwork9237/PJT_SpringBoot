@@ -83,15 +83,15 @@ public class BlogController {
 	public ModelAndView postList(@RequestParam("page") String page, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
-		Map<String, Object> pegmap;
-		pegmap = Pagination.pagination(postService.getPostCount(), req);
+		Map<String, Object> pegMap;
+		pegMap = Pagination.pagination(postService.getPostCount(), req);
 		
-		Map<String, Integer> postMap =new HashMap<>();
-		postMap.put("start", (Integer) pegmap.get("offset"));
-		List <PostDomain> posts = postService.getPostList(postMap);
+		Map<String, Integer> postMap = new HashMap<>();
+		postMap.put("start", (Integer) pegMap.get("offset"));
+		List<PostDomain> posts = postService.getPostList(postMap);
 		
 		if(posts != null) {
-			mav.addAllObjects(pegmap);
+			mav.addAllObjects(pegMap);
 			mav.addObject("items", posts);
 			mav.addObject("itemsNotEmpty", true);
 		}
@@ -123,7 +123,12 @@ public class BlogController {
 		postVO.setContent(post.getPostContent());
 		postVO.setTags(post.getPostTags());
 		postVO.setMimg(post.getPostMimg());
-		postVO.setAimg(mb.getMbImage());
+		
+		//Null 일시 더미이미지
+		if(mb != null)
+			postVO.setAimg(mb.getMbImage());
+		else
+			postVO.setAimg("https://http.cat/500");
 		
 		mav.addObject("postVO", postVO);
 		mav.setViewName("items/blog/update.html");
@@ -191,7 +196,8 @@ public class BlogController {
 		//Get Mbinfo
 		HttpSession hs = req.getSession();
 		Map<String, String> map = new HashMap<>();
-		map.put("mbCode", Integer.toString((Integer)hs.getAttribute("mbCode")));
+		System.out.println("TEST => " + hs.getAttribute("mbCode"));
+		map.put("mbCode", (String)hs.getAttribute("mbCode"));
 		LoginDomain mb = mbService.getCode(map);
 		
 		//Now Time

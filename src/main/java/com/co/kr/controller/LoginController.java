@@ -81,7 +81,6 @@ public class LoginController {
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("mbId", log.getId());
-		map.put("mbMail", log.getMail());
 		
 		try {
 			mbInfo = mbService.getMember(map);
