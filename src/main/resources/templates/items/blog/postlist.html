@@ -5,18 +5,6 @@
     <head>
         <title>Blog Posts</title>
         <style>
-			table {
-			    width: 100%;
-			    border: 1px solid #444444;
-			    border-collapse: collapse;
-		  	}
-		  	th, td {
-		    	border: 1px solid #444444;
-			}
-			
-			li {
-				padding: 10px;
-			}
 		</style>
     </head>
     <div layout:fragment="content">
@@ -39,17 +27,23 @@
 	        					<th>Author</th>
 	        					<th>Tags</th>
 	        					<th>Date</th>
-	        					<th>Manage</th>
+	        					<th style="color:#FFFFFF;">Manage</th>
 	        				</tr>
 	        			</thead>
 	        			<tbody>
 	        				<tr th:if=${itemsNotEmpty} th:each="item : ${items}">
-	        					<td th:text="${item.postId}" style="display: flex; align-items: center; height:50px;"></td>
+	        					<td th:text="${item.postId}"></td>
 	        					<td th:text="${item.postTitle}"></td>
 	        					<td th:text="${item.postAuthor}"></td>
 	        					<td th:text="${item.postTags}"></td>
 	        					<td th:text="${item.postDate}"></td>
-	        					<td><a th:href="@{/blog/post/{id}(id = ${item.postId})}"><button>보기</button></a></td>
+	        					<td>
+	        						<a 
+	        							th:href="@{/blog/post/{id}(id = ${item.postId})}"
+	        							style="text-align:center; align-items:center;">
+	        							보기
+	        						</a>
+	        					</td>
 	        				</tr>
 	        				<tr th:unless=${itemsNotEmpty}>
 	        					<td colspan="6" style="padding: 60px 0; text-align:center;">DATA NOT FOUND</td>

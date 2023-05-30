@@ -79,7 +79,6 @@ public class BlogController {
 	}
 	
 	//Show List(post)
-	//
 	@GetMapping("/blog/postList")
 	public ModelAndView postList(@RequestParam("page") String page, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
