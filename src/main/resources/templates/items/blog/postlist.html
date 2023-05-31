@@ -45,13 +45,13 @@
 	        						</a>
 	        					</td>
 	        				</tr>
-	        				<tr th:unless=${itemsNotEmpty}>
+	        				<tr th:if=${itemsEmpty}>
 	        					<td colspan="6" style="padding: 60px 0; text-align:center;">DATA NOT FOUND</td>
 	        				</tr>
 	        			</tbody>
 	        		</table>
 	        		
-	        		<div style="text-align:center; padding:10px;">
+	        		<div style="text-align:center; padding:10px;" th:if=${itemsNotEmpty}>
 	        			<ul style="padding:10px;">
 	        				<th:block th:switch="${startpage} <= ${endpage}">
 				                <li th:case="${rowNUM} < 0" style="display: none; padding:10px;">

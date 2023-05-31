@@ -83,21 +83,26 @@ public class BlogController {
 	public ModelAndView postList(@RequestParam("page") String page, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
-		Map<String, Object> pegMap;
-		pegMap = Pagination.pagination(postService.getPostCount(), req);
-		
-		Map<String, Integer> postMap = new HashMap<>();
-		postMap.put("start", (Integer) pegMap.get("offset"));
-		List<PostDomain> posts = postService.getPostList(postMap);
-		
-		if(posts != null) {
-			mav.addAllObjects(pegMap);
-			mav.addObject("items", posts);
-			mav.addObject("itemsNotEmpty", true);
+		if(postService.getPostCount() != 0) {
+			Map<String, Object> pegMap;
+			pegMap = Pagination.pagination(postService.getPostCount(), req);
+			
+			Map<String, Integer> postMap = new HashMap<>();
+			postMap.put("start", (Integer) pegMap.get("offset"));
+			List<PostDomain> posts = postService.getPostList(postMap);
+			
+			if(posts != null) {
+				mav.addAllObjects(pegMap);
+				mav.addObject("items", posts);
+				mav.addObject("itemsNotEmpty", true);
+				mav.addObject("itemsEmpty", false);
+			}
 		}
 		
-		else
+		else {
 			mav.addObject("itemsNotEmpty", false);
+			mav.addObject("itemsEmpty", true);
+		}
 		
 		mav.setViewName("items/blog/postlist.html");
 		return mav;

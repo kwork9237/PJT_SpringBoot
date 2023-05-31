@@ -48,7 +48,7 @@
 				      	
 				      	<!-- Image URL input (DISABLED) -->
 				      	<div class="form-outline mb-4">
-				        	<input type="text" id="isadmin" name="isadmin" th:value=${isAdmin} class="form-control" onKeyup="this.value=this.value.replace(/[^0-1]/g,'');" required/>
+				        	<input type="text" id="isadmin" name="isadmin" th:value=${isAdmin} class="form-control" onKeyup="this.value=this.value.replace(/[^0-1]/g,'');" maxlength="1" required/>
 				        	<label class="form-label" for="isadmin">isAdmin (0 or 1)</label>
 				      	</div>
 				      	
